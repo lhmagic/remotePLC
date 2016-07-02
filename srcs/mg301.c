@@ -136,7 +136,7 @@ char read[32]= "AT^SISR=0,", temp[32];
 char *p;	
 	
 	for(retry=0; retry<3; retry++) {
-		mg_cmd("AT+CHUP");
+//		mg_cmd("AT+CHUP");
 		mg_cmd("AT^SISR=0,0");
 		if((p=strstr(get_usart2_buf(), "SISR: 0,")) != NULL) {
 			p += strlen("SISR: 0,");

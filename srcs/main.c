@@ -34,13 +34,10 @@ int main(void) {
 static uint8_t last_input;	
 static char buf[16];
 	
-	DBGMCU->CR |= DBGMCU_CR_DBG_TIM5_STOP;
-	
 	board_init();
 	memcpy(&remote_config, (uint8_t *)PARAM_ADDR, 80);
 	set_output(0x00);
-	disable_echo();
-	usart_rx_to_on();
+	
 	while(1) {
 		IWDG_REFRESH();
 		//串口配置处理
@@ -78,6 +75,7 @@ static char buf[16];
 							}
 						}
 					}
+
 					flash_write(PARAM_ADDR, (uint8_t *)&remote_config, 80);
 					xputs("OK\r\n");
 					net_close(0);
@@ -127,7 +125,7 @@ static char buf[16];
 		
 		if(is_ring(remote_config.phone)) {
 			//管理员来电强制复位GPRS模块
-			mg_soft_restart();				
+			NVIC_SystemReset();				
 		}
 	}
 }
